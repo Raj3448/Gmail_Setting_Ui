@@ -282,42 +282,72 @@ class _GeneralState extends State<General> {
                     ),
                     elevation: 5,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      child: Row(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            height: 25,
-                            width: 100,
-                            child: DropdownButton(
-                                underline: const SizedBox(),
-                                isExpanded: true,
-                                items: [
-                                  const DropdownMenuItem<String>(
-                                    value: "Sans Serif",
-                                    child: Text(' Serif'),
-                                  ),
-                                  ...fontList.map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text("  $value"),
-                                    );
-                                  }).toList(),
-                                ],
-                                value: _selectedFont,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedFont = value!;
-                                  });
-                                }),
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                width: 100,
+                                child: DropdownButton(
+                                    underline: const SizedBox(),
+                                    isExpanded: true,
+                                    items: [
+                                      const DropdownMenuItem<String>(
+                                        value: "Sans Serif",
+                                        child: Text(' Serif'),
+                                      ),
+                                      ...fontList.map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text("  $value"),
+                                        );
+                                      }).toList(),
+                                    ],
+                                    value: _selectedFont,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedFont = value!;
+                                      });
+                                    }),
+                              ),
+                              SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: IconButton(
+                                      onPressed: () {},
+                                      icon: Image.asset(
+                                        'assets/images/font.png',
+                                        color: Colors.grey,
+                                      ))),
+                              SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: IconButton(
+                                      onPressed: () {},
+                                      icon: Image.asset(
+                                        'assets/images/technology.png',
+                                        color: Colors.grey,
+                                      ))),
+                              SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: IconButton(
+                                      onPressed: () {},
+                                      icon: Image.asset(
+                                        'assets/images/text.png',
+                                        color: Colors.grey,
+                                      ))),
+                              //
+                            ],
                           ),
-                          SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: Image.asset('assets/images/font.png')))
+                          const Text(
+                                  'This is what your body text will look like.')
+                              .paddingOnly(left: 10),
                         ],
                       ),
                     ),
