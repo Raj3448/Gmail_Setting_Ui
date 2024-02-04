@@ -11,7 +11,7 @@ class SettingPage extends StatelessWidget {
       body: Center(
         child: SizedBox(
           height: screenSize.height * 0.8,
-          width: screenSize.width * 0.7,
+          width: screenSize.width * 0.8,
           child: const Column(
             children: [
               MyAppbar(title: "Settings"),

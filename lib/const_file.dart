@@ -199,9 +199,8 @@ class ConstantClass {
     "Zimbabwe"
   ];
 
-  static const TextStyle textStyle = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-    color: Colors.black
-  );
+  static const TextStyle textStylewithBold =
+      TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black);
+  static const TextStyle textStyleWithThin =
+      TextStyle(fontSize: 20, color: Colors.black);
 }
