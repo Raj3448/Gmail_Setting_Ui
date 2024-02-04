@@ -10,25 +10,23 @@ class CustomizedChoiceBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: 30,
+          height: selected ? 20 : 30,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
                   width: 1, color: selected ? Colors.blue : Colors.grey)),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 30,
-              //clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: selected ? Colors.blue : Colors.grey,
-              ),
-            ),
-          ),
+              padding: EdgeInsets.all(selected ? 2 : 7),
+              child: selected
+                  ? const CircleAvatar(
+                      radius: 5,
+                      backgroundColor: Colors.blue,
+                    )
+                  : null),
         ),
         Text(
           "  $text",
