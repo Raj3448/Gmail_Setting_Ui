@@ -22,14 +22,19 @@ class _SignatureWidgetState extends State<SignatureWidget> {
     "Monospaced"
   ];
   String _selectedFont = "Serif";
+  String _signature = "No Signature";
+
+  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             getListTileTitleWidget("Signature:", context),
             SizedBox(
@@ -42,8 +47,7 @@ class _SignatureWidgetState extends State<SignatureWidget> {
             )
           ],
         ).paddingOnly(left: 15),
-        Consumer<SignatureProvider>(
-          builder: (context, signatures, child) {
+        Consumer<SignatureProvider>(builder: (context, signatures, child) {
           final signatureList = signatures.getSignatureList;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,7 +226,116 @@ class _SignatureWidgetState extends State<SignatureWidget> {
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   )).paddingOnly(top: 10),
-                  
+              if (signatureList.isNotEmpty)
+                const Text(
+                  'Signature defaults',
+                  style: ConstantClass.textStylewithBold,
+                ),
+              if (signatureList.isNotEmpty)
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('FOR NEW EMAILS USE'),
+                        Container(
+                          height: 25,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 0.8,
+                              ),
+                              borderRadius: BorderRadius.circular(3)),
+                          child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: _signature,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _signature = newValue!;
+                                });
+                              },
+                              underline: const SizedBox(),
+                              items: [
+                                const DropdownMenuItem<String>(
+                                  value: 'No Signature',
+                                  child: Text('  English (US)'),
+                                ),
+                                ...signatures.getSignatureList
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text("  $value"),
+                                  );
+                                }).toList(),
+                              ]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('ON REPLY/FORWARD USE'),
+                        Container(
+                          height: 25,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 0.8,
+                              ),
+                              borderRadius: BorderRadius.circular(3)),
+                          child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: _signature,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _signature = newValue!;
+                                });
+                              },
+                              underline: const SizedBox(),
+                              items: [
+                                const DropdownMenuItem<String>(
+                                  value: 'No Signature',
+                                  child: Text('  English (US)'),
+                                ),
+                                ...signatures.getSignatureList
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text("  $value"),
+                                  );
+                                }).toList(),
+                              ]),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              if (signatureList.isNotEmpty)
+                Row(
+                  children: [
+                    Checkbox(
+                      checkColor: Colors.white,
+                      activeColor: Colors.blue,
+                      value: _isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _isChecked = value!;
+                        });
+                      },
+                    ),
+                    const Text(
+                      'Insert signature before quoted text in replies and remove the "--" line that precedes it.',
+                      style: ConstantClass.textStyleWithThin,
+                    ),
+                  ],
+                )
             ],
           );
         })

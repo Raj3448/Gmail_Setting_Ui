@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SignatureProvider extends ChangeNotifier {
   List<String> _signatureList = [];
 
-  List get getSignatureList {
+  List<String> get getSignatureList {
     return [..._signatureList];
   }
 
