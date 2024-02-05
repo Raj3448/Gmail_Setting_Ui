@@ -31,7 +31,11 @@ class _GeneralState extends State<General> {
     "Monospaced"
   ];
 
-  List imageList = [
+  List imageList1 = [
+    "star.png",
+  ];
+
+  List imageList2 = [
     "star.png",
     "star (1).png",
     "star (3).png",
@@ -408,10 +412,54 @@ class _GeneralState extends State<General> {
                             style: ConstantClass.textStylewithBold),
                         SizedBox(
                           height: 25,
-                          width: 25,
-                          child: Image.asset('assets/images/star.png',
-                                  fit: BoxFit.cover)
-                              .paddingAll(5),
+                          width: 400,
+                          child: DragTarget(
+                            builder: (context, accepted, rejected) =>
+                                ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: imageList1.length,
+                                    itemBuilder: (context, index) {
+                                      if (imageList1.isEmpty) {
+                                        return const SizedBox();
+                                      }
+                                      return IgnorePointer(
+                                        ignoring: false,
+                                        child: SizedBox(
+                                          height: 25,
+                                          width: 25,
+                                          child: Draggable<String>(
+                                            feedback: SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child: Image.asset(
+                                                  'assets/images/${imageList1[index]}'),
+                                            ),
+                                            childWhenDragging: const SizedBox(),
+                                            child: Image.asset(
+                                                    'assets/images/${imageList1[index]}',
+                                                    fit: BoxFit.cover)
+                                                .paddingAll(5),
+                                            onDragCompleted: () {
+                                              setState(() {
+                                                imageList1.removeAt(index);
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                            onWillAccept: (data) {
+                              return true;
+                            },
+                            onAccept: (data) {
+                              setState(() {
+                                imageList2.remove(data);
+                                imageList1.add(data);
+                              });
+                              
+                              print(imageList1);
+                            },
+                          ),
                         )
                       ],
                     ),
@@ -423,17 +471,52 @@ class _GeneralState extends State<General> {
                           height: 20,
                           width: 400,
                           child: Center(
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: imageList.length,
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                          height: 25,
-                                          width: 25,
-                                          child: Image.asset(
-                                              'assets/images/${imageList[index]}'))
-                                      .paddingAll(2);
-                                }),
+                            child: DragTarget<String>(
+                              builder: (context, accepted, rejected) =>
+                                  ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: imageList2.length,
+                                      itemBuilder: (context, index) {
+                                        if (imageList2.isEmpty) {
+                                          return const SizedBox();
+                                        }
+                                        return IgnorePointer(
+                                          ignoring: false,
+                                          child: SizedBox(
+                                              height: 25,
+                                              width: 25,
+                                              child: Draggable<String>(
+                                                feedback: SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child: Image.asset(
+                                                      'assets/images/${imageList2[index]}'),
+                                                ),
+                                                childWhenDragging: const SizedBox(),
+                                                child: SizedBox(
+                                                  height: 25,
+                                                  width: 25,
+                                                  child: Image.asset(
+                                                      'assets/images/${imageList2[index]}'),
+                                                ),
+                                                onDragCompleted: () {
+                                              setState(() {
+                                                imageList2.removeAt(index);
+                                              });
+                                            },
+                                              )).paddingAll(2),
+                                        );
+                                      }),
+                              onWillAccept: (data) {
+                                return true;
+                              },
+                              onAccept: (data) {
+                                setState(() {
+                                  imageList1.remove(data);
+                                  imageList2.add(data);
+                                });
+                              },
+                            ),
                           ),
                         )
                       ],
@@ -487,7 +570,7 @@ class _GeneralState extends State<General> {
                           ),
                           label: const Text(
                             'Create new',
-                            style: TextStyle(color: Colors.blue, fontSize: 18,fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.blue),
                           )).paddingOnly(top: 10)
                     ],
                   )
