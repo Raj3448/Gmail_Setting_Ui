@@ -5,8 +5,23 @@ import 'package:gmail_setting_ui/shared/tab_view_widgets/general.dart';
 import 'package:provider/provider.dart';
 import 'package:zapx/zapx.dart';
 
-class SignatureWidget extends StatelessWidget {
+class SignatureWidget extends StatefulWidget {
   SignatureWidget({Key? key}) : super(key: key);
+
+  @override
+  State<SignatureWidget> createState() => _SignatureWidgetState();
+}
+
+class _SignatureWidgetState extends State<SignatureWidget> {
+  List<String> fontList = [
+    "Times New Roman",
+    "Serif",
+    "Arial",
+    "Sans-serif",
+    "Courier New",
+    "Monospaced"
+  ];
+  String _selectedFont = "Serif";
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +42,8 @@ class SignatureWidget extends StatelessWidget {
             )
           ],
         ).paddingOnly(left: 15),
-        Consumer<SignatureProvider>(builder: (context, signatures, child) {
+        Consumer<SignatureProvider>(
+          builder: (context, signatures, child) {
           final signatureList = signatures.getSignatureList;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,40 +58,145 @@ class SignatureWidget extends StatelessWidget {
                   children: [
                     Container(
                       height: screenSize.height * 0.2,
-                      width: screenSize.width * 0.15,
+                      width: screenSize.width * 0.17,
                       decoration: BoxDecoration(
                           border: Border.all(width: 0.5, color: Colors.grey)),
                       child: ListView.builder(
                           itemCount: signatureList.length,
                           itemBuilder: (context, index) {
                             return SizedBox(
-                              width:screenSize.width * 0.15,
+                              width: screenSize.width * 0.14,
                               height: screenSize.height * 0.06,
-                              child: ListTile(
-                                title: Text(signatureList[index]),
-                                trailing: Row(
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(Icons.edit,size:30)),
-                                    IconButton(onPressed: () {}, icon: const Icon(Icons.delete,size: 30,))
-                                  ],
-                                ),
-                              ),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: screenSize.width * 0.04,
+                                    child: Text(
+                                      signatureList[index],
+                                      style: const TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    width: screenSize.width * 0.06,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.edit,
+                                                size: 25)),
+                                        IconButton(
+                                            onPressed: () {
+                                              signatures.removeSignature(
+                                                  signatureList[index]);
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete_outline_rounded,
+                                              size: 25,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ).paddingSymmetric(horizontal: 10, vertical: 3),
                             );
                           }),
                     ),
                     Container(
-                        height: screenSize.height * 0.2,
-                        width: screenSize.width * 0.24,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 0.5, color: Colors.grey)))
+                      height: screenSize.height * 0.2,
+                      width: screenSize.width * 0.3,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.5, color: Colors.grey)),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: screenSize.height * 0.14,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 0.5, color: Colors.grey)),
+                            child: const TextField(
+                              maxLines: 10,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              )),
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenSize.height * 0.05,
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 25,
+                                  width: 100,
+                                  child: DropdownButton(
+                                      underline: const SizedBox(),
+                                      isExpanded: true,
+                                      items: [
+                                        const DropdownMenuItem<String>(
+                                          value: "Sans Serif",
+                                          child: Text(' Serif'),
+                                        ),
+                                        ...fontList
+                                            .map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text("  $value"),
+                                          );
+                                        }).toList(),
+                                      ],
+                                      value: _selectedFont,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedFont = value!;
+                                        });
+                                      }),
+                                ),
+                                SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: IconButton(
+                                        onPressed: () {},
+                                        icon: Image.asset(
+                                          'assets/images/font.png',
+                                          color: Colors.grey,
+                                        ))),
+                                SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: IconButton(
+                                        onPressed: () {},
+                                        icon: Image.asset(
+                                          'assets/images/technology.png',
+                                          color: Colors.grey,
+                                        ))),
+                                SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: IconButton(
+                                        onPressed: () {},
+                                        icon: Image.asset(
+                                          'assets/images/text.png',
+                                          color: Colors.grey,
+                                        ))),
+                                //
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
               TextButton.icon(
                   style: ButtonStyle(
                     minimumSize: MaterialStatePropertyAll(Size(
-                        screenSize.width * 0.156, screenSize.height * 0.06)),
+                        screenSize.width * 0.166, screenSize.height * 0.06)),
                     shape: MaterialStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -100,7 +221,8 @@ class SignatureWidget extends StatelessWidget {
                         color: Colors.blue,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
-                  )).paddingOnly(top: 10)
+                  )).paddingOnly(top: 10),
+                  
             ],
           );
         })
