@@ -38,6 +38,7 @@ dependencies:
   zapx: ^1.0.5+1
   dropdown_search: ^5.0.6
   kanban_board: ^0.1.0
+  provider: ^6.1.1
 
 dev_dependencies:
   flutter_test:

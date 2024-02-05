@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gmail_setting_ui/const_file.dart';
 import 'package:gmail_setting_ui/shared/sub_widgets/customized_choice_box.dart';
+import 'package:gmail_setting_ui/shared/sub_widgets/signature_widget.dart';
 import 'package:zapx/zapx.dart';
 
 class General extends StatefulWidget {
@@ -525,57 +526,7 @@ class _GeneralState extends State<General> {
                 ),
               ),
               const Divider(),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      getListTileTitleWidget("Signature:", context),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        child: const Text(
-                            '(appended at the end of all outgoing messages)Learn more',
-                            style: TextStyle(
-                              fontSize: 14,
-                            )),
-                      )
-                    ],
-                  ).paddingOnly(left: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'No Signature',
-                        style: ConstantClass.textStylewithBold,
-                      ),
-                      TextButton.icon(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: const BorderSide(color: Colors.black),
-                              ),
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              const BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                          ),
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.add,
-                            color: Colors.blue,
-                          ),
-                          label: const Text(
-                            'Create new',
-                            style: TextStyle(color: Colors.blue),
-                          )).paddingOnly(top: 10)
-                    ],
-                  )
-                ],
-              ),
+              SignatureWidget(),
               const Divider()
             ],
           ).paddingSymmetric(horizontal: 10),
@@ -583,7 +534,7 @@ class _GeneralState extends State<General> {
       ],
     );
   }
-
+}
   Widget getListTileTitleWidget(String title, BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.15,
@@ -593,4 +544,3 @@ class _GeneralState extends State<General> {
       ),
     );
   }
-}
